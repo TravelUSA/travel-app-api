@@ -1,0 +1,7 @@
+#!/bin/bash
+
+python -mvenv .venv-docker
+source .venv-docker/bin/activate
+pip install -e .
+app migrate
+app runserver 0.0.0.0:8000

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+
+main() {
+  docker-compose exec app bash -c "source .venv-docker/bin/activate && pytest '$@'"
+}
+
+
+main "$@"
+
+# vim: ts=2 sw=2 sts=2 et

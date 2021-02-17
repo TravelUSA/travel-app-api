@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+
+SERVICE_MODULE='app'
+SERVICE_HOSTNAME='app'
+
+
+main() {
+  local prompt
+  prompt='This will set the environment up from scratch. '
+  prompt+='Are you sure? [y/n] '
+  read -r -p "$prompt"
+  [[ $REPLY = [Yy]* ]] || return
+
+  echo
+  if [[ ! -s .env ]]; then
+    read -r -p 'Do you want to replace current .env with .env.example as well? [y/n] '
+    echo
+    if [[ $REPLY = [Yy]* ]]; then
+      echo 'Copying .env.example to .env...'
+      cp .env.example .env
+    fi
+  fi
+
+  echo
+  echo 'Rebuilding containers...'
+  docker-compose down -v --remove-orphans
+  docker-compose up -d --build
+
+  printf 'Waiting for postgres to become available.'
+  until connect_to_postgres -c 'SELECT 1;' > /dev/null 2>&1; do
+      printf .
+      sleep 1
+  done
+  echo
+
+  bin/info
+
+}
+
+connect_to_postgres() {
+  export PGCONNECT_TIMEOUT=2
+  export PGHOST=localhost
+  export PGUSER=postgres
+  docker-compose exec -T -e PGCONNECT_TIMEOUT -e PGHOST -e PGUSER postgres psql "$@"
+}
+
+main "$@"
+
+# vim: ts=2 sw=2 sts=2 et

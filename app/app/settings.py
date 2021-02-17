@@ -11,6 +11,13 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import Csv, config
+import dj_database_url
+import json
+import os
+from typing import List
+from warnings import warn
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -85,7 +92,11 @@ DATABASES = {
         'PASSWORD': 'postgres'
     }
 }
-
+AWS_AURORA = config('AWS_AURORA', False)
+if AWS_AURORA:
+    DATABASE_URL = config("AWS_AURORA")
+    dj_database_url.SCHEMES["postgres+iam"] = "django_iam_dbauth.aws.postgresql"
+    DATABASES = {"default": dj_database_url.parse(DATABASE_URL)}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

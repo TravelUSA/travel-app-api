@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+main() {
+
+
+  echo
+  echo "Your services are exposed on:"
+  echo
+  echo "  * swagger: http://localhost:8000/swagger/"
+  echo "  * app: http://localhost:8000"
+  echo "  * pgweb: http://localhost:22980"
+  echo
+}
+main "$@"
+
+# vim: ts=2 sw=2 sts=2 et

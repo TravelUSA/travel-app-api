@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+
+SERVICE_HOSTNAME='app'
+
+
+main() {
+  local service_port
+
+  service_port=$(_exposed_port "$SERVICE_HOSTNAME" 5052)
+  docs_port=$(_exposed_port docs 80)
+
+  open "http://[::1]:$service_port/swagger/"
+  open "http://[::1]:$docs_port"
+}
+
+
+_exposed_port() {
+  local service=$1
+  local internal_port=$2
+
+  docker-compose port "$service" "$internal_port" | cut -d':' -f2
+}
+
+
+main "$@"
+
+
+# vim: ts=2 sw=2 sts=2 et

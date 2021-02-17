@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Wait for elastic search
+
+until docker-compose exec elasticsearch curl --silent [::1]:9200/_cluster/health | grep -v '"status":"red"' &> /dev/null
+do
+  printf .
+  sleep 1
+done
+
+echo ' Done.'
