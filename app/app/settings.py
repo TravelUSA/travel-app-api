@@ -81,22 +81,27 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
+AWS_DB_NAME: str = config("AWS_DB_NAME", "app")
+AWS_DB_USER: str = config("AWS_DB_USER", "test")
+AWS_DB_PORT: str = config("AWS_DB_PORT", "5432")
+AWS_DB_PASSWORD: str = config("AWS_DB_PASSWORD", "")
+AWS_DB_HOST: str = config("AWS_DB_HOST", "postgres")
+if AWS_DB_PASSWORD:
+    DATABASE_URL = f"postgres://{AWS_DB_USER}:{AWS_DB_PASSWORD}@{AWS_DB_HOST}:{AWS_DB_PORT}/{AWS_DB_NAME}"
+else:
+    DATABASE_URL = f"postgres+iam://{AWS_DB_USER}@{AWS_DB_HOST}:{AWS_DB_PORT}/{AWS_DB_NAME}?use_iam_auth=true"
+dj_database_url.SCHEMES["postgres+iam"] = "django_iam_dbauth.aws.postgresql"
 DATABASES = {
   'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'app',
-        'HOST': 'db',
+        'HOST': 'postgres',
         'PORT': 5432,
         'USER': 'postgres',
         'PASSWORD': 'postgres'
-    }
+    },
+    'app': dj_database_url.parse(DATABASE_URL)
 }
-AWS_AURORA = config('AWS_AURORA', False)
-if AWS_AURORA:
-    DATABASE_URL = config("AWS_AURORA")
-    dj_database_url.SCHEMES["postgres+iam"] = "django_iam_dbauth.aws.postgresql"
-    DATABASES = {"default": dj_database_url.parse(DATABASE_URL)}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

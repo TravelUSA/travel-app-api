@@ -1,4 +1,8 @@
 version: "3"
+
+volumes:
+  db:
+
 services:
   app:
     build:
@@ -18,9 +22,9 @@ services:
       - DB_USER=postgres
       - DB_PASS=postgres
     depends_on: 
-      - db
+      - postgres
 
-  db:
+  postgres:
     image: postgres:13.1-alpine
     container_name: local-test-postgres
     restart: unless-stopped
@@ -30,3 +34,18 @@ services:
       - POSTGRES_DB=app
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  pgweb:
+    container_name: local-test-pgweb
+    restart: unless-stopped
+    image: sosedoff/pgweb
+    ports:
+      - "22980:8081"
+    links:
+      - postgres:postgres
+    environment:
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/app?sslmode=disable
+    depends_on:
+      - postgres

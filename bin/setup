@@ -28,11 +28,11 @@ main() {
   docker-compose up -d --build
 
   printf 'Waiting for postgres to become available.'
-  until connect_to_postgres -c 'SELECT 1;' > /dev/null 2>&1; do
-      printf .
-      sleep 1
-  done
-  echo
+  # until connect_to_postgres -c 'SELECT 1;' > /dev/null 2>&1; do
+  #     printf .
+  #     sleep 1
+  # done
+  # echo
 
   bin/info
 
