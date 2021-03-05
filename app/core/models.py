@@ -35,5 +35,9 @@ class User(AbstractBaseUser,PermissionsMixin):
 
     USERNAME_FIELD = 'email'
 
-
+class User_Info(models.Model):
+    patient_id = models.CharField(blank=True, null=True, max_length=255)
+    tumor_type = models.CharField(blank=True, null=True, max_length=255)
+    birthdate = models.DateField(blank=True, null=True)
+    ethnicity = models.TextField(blank=True, null=True)
 
