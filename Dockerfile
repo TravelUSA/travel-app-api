@@ -1,4 +1,5 @@
 FROM python:3.8-slim
+LABEL author="sagnik80"
 
 ENV PYTHONUNBUFFERED 1
 
