@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-
-docker-compose exec app bash
+# this works in travel-api-app
+docker-compose exec app /bin/bash
 
 
 # vim: ts=2 sw=2 sts=2 et
