@@ -47,3 +47,14 @@ class ModelTests(TestCase):
             name = 'Vegan'
         )
         self.assertEqual(str(tag), tag.name)
+
+    def test_itenary_str(self):
+        """Test the itenary string representation"""
+        itenary = models.Itenary.objects.create(
+            user = sample_user(),
+            name = 'Places',
+            travel_time = 'Future',
+            places = 'to be fixed'
+        )
+
+        self.assertEqual(str(itenary), itenary.name)

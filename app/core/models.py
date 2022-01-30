@@ -54,3 +54,16 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
+
+class Itenary(models.Model):
+    """Places visited during a travel"""
+    name = models.CharField(max_length=255)
+    travel_time = models.CharField(max_length=255)
+    places = models.CharField(max_length=255)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete = models.CASCADE
+    )
+
+    def __str__(self):
+        return self.name
