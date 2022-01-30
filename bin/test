@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+
+main() {
+  docker-compose exec app bash -c "python manage.py test '$@'"
+  # docker-compose exec app bash -c "source .venv-docker/bin/activate && pytest '$@'"
+}
+
+
+main "$@"
