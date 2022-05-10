@@ -2,7 +2,7 @@
 
 
 main() {
-  docker-compose exec app bash -c "source .venv-docker/bin/activate && $1"
+  docker-compose exec app bash
 }
 
 

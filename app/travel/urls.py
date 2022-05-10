@@ -5,7 +5,7 @@ from travel import views
 
 router = DefaultRouter()
 router.register('tags', views.TagViewSet)
-router.register('itineries', views.ItenaryViewSet)
+router.register('itenaries', views.ItenaryViewSet)
 
 app_name = 'travel'
 
