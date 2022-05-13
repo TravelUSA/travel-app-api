@@ -13,6 +13,6 @@ class TagSerializer(serializers.ModelSerializer):
 class ItenarySerializer(serializers.ModelSerializer):
     """Serializer for Itenary objects """     
     class Meta:
-        model = Tag
-        fields = ('id', 'name')
+        model = Itenary
+        fields = ('id', 'name','travel_time', 'places')
         read_only_fields = ('id',)

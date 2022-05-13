@@ -27,7 +27,7 @@ class PublicItenaryApiTests(TestCase):
 
 
 class PrivateItenaryApiTests(TestCase):
-    """Test the private itenary"""
+    """Test the private itenary API"""
 
     def setUp(self) -> None:
         self.client = APIClient()
@@ -64,8 +64,9 @@ class PrivateItenaryApiTests(TestCase):
 
     def test_create_itenary_successful(self):
         """Test create a new itenary"""
-        payload = {'name': 'NYC'}
+        payload = {'name': 'vacation1', 'travel_time': "2021-12-23", "places": "Hawaii"}
         self.client.post(ITENARY_URL, payload)
+        res = self.client.get(ITENARY_URL)
         exists = Itenary.objects.filter(
             user = self.user,
             name=payload['name']
